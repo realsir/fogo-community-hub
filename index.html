@@ -20,14 +20,15 @@
       overflow: hidden;
       position: relative;
     }
-    .icon-block {
+    .fogo-icons {
       position: absolute;
-      top: 190px;
-      left: 25px;
-      z-index: 2;
+      top: 430px;
+      left: 28px;
+      z-index: 10;
       display: flex;
       flex-direction: column;
-      gap: 22px;
+      align-items: center;
+      gap: 18px;
     }
     .desktop-icon {
       display: flex;
@@ -35,6 +36,7 @@
       align-items: center;
       cursor: pointer;
       margin-bottom: 0;
+      position: static;
     }
     .icon-caption {
       margin-top: 7px;
@@ -58,12 +60,6 @@
       transform: scale(1.11) rotate(-6deg);
       box-shadow: 0 13px 32px 0 rgba(255,100,0,0.16);
     }
-    .desktop-icon.dont-click-fogo {
-      position: absolute;
-      top: 430px;
-      left: 28px;
-      z-index: 10;
-    }
     .desktop-icon.realsir-dev {
       position: fixed;
       bottom: 28px;
@@ -73,10 +69,20 @@
       border-radius: 20px;
       box-shadow: 0 4px 18px 0 rgba(255,140,0,0.11);
     }
+    .icon-block {
+      position: absolute;
+      top: 190px;
+      left: 25px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
     @media (max-width: 880px) {
       .bird-side-row { gap: 13px; margin-left: 7px;}
       .icon-caption { font-size: 13px; max-width: 65px; }
       .desktop-icon.realsir-dev { right: 10px; bottom: 12px;}
+      .fogo-icons { left: 8px; }
     }
     @media (max-width: 600px) {
       .icon-block { left: 5px;}
@@ -85,6 +91,7 @@
       .bird-side-row { gap: 5px; margin-left: 2px;}
       .icon-caption { font-size: 12px; max-width: 47px;}
       .desktop-icon.realsir-dev { right: 4px; bottom: 6px;}
+      .fogo-icons { top: 320px; }
     }
     .bird-row-wrap {
       display: flex;
@@ -135,21 +142,72 @@
       55% { filter: brightness(0.5) drop-shadow(0 4px 18px #ffae4220);}
       70% { filter: brightness(1.1) drop-shadow(0 12px 40px #ffae4266);}
     }
+    /* Модальное окно */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 200;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background: rgba(0,0,0,0.46);
+    }
+    .modal-content {
+      background: #fff;
+      margin: 6% auto;
+      padding: 0;
+      border-radius: 22px;
+      border: 2.8px solid #ffb34799;
+      width: 620px;
+      max-width: 94vw;
+      box-shadow: 0 12px 48px #ff893053;
+      position: relative;
+    }
+    .modal-content iframe {
+      width: 100%;
+      height: 376px;
+      border: none;
+      border-radius: 18px;
+      display: block;
+      background: #ffecd8;
+    }
+    .modal-close {
+      position: absolute;
+      top: 22px;
+      right: 35px;
+      font-size: 2.2rem;
+      color: #ff8360;
+      cursor: pointer;
+      font-weight: bold;
+      transition: color 0.23s;
+      user-select: none;
+      background: none;
+      border: none;
+    }
+    .modal-close:hover {
+      color: #ff6152;
+    }
   </style>
 </head>
 <body>
-  <!-- Don't Click Fogo (krest.png) -->
-  <div class="desktop-icon dont-click-fogo" onclick="window.open('https://dont-click-fogo.vercel.app/', '_blank')">
-    <img src="krest.png" alt="Don't Click Fogo">
-    <div class="icon-caption">Don't Click Fogo!</div>
+  <!-- Контейнер для пары иконок слева -->
+  <div class="fogo-icons">
+    <div class="desktop-icon dont-click-fogo" onclick="window.open('https://dont-click-fogo.vercel.app/', '_blank')">
+      <img src="krest.png" alt="Don't Click Fogo">
+      <div class="icon-caption">Don't Click Fogo!</div>
+    </div>
+    <div class="desktop-icon fogo-brain" onclick="document.getElementById('fogoBrainModal').style.display='block'">
+      <img src="brain.png" alt="Fogo Brain">
+      <div class="icon-caption">Fogo Brain</div>
+    </div>
   </div>
-
   <!-- Новая иконка realsir (dev) в правом нижнем углу -->
   <div class="desktop-icon realsir-dev" onclick="window.open('https://x.com/realsirandrew', '_blank')">
     <img src="pix.png" alt="realsir (dev)">
     <div class="icon-caption">realsir (dev)</div>
   </div>
-
   <div class="icon-block">
     <div class="bird-row-wrap">
       <div class="bird-col">
@@ -178,9 +236,15 @@
       </div>
     </div>
   </div>
+  <!-- Модальное окно для Fogo Brain -->
+  <div id="fogoBrainModal" class="modal" onclick="if(event.target === this) this.style.display='none'">
+    <div class="modal-content">
+      <button class="modal-close" onclick="document.getElementById('fogoBrainModal').style.display='none'">&times;</button>
+      <iframe src="brain.html"></iframe>
+    </div>
+  </div>
   <div class="hub-title" title="Fogo Community Hub">
     Fogo Community Hub
   </div>
 </body>
 </html>
-

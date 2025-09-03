@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fogo Quiz</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+        }
+        body {
+            background-image: url('brain1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+        .center-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .welcome-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.94);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(50,25,10,0.18);
+            padding: 38px 30px;
+            text-align: center;
+            min-width: 280px;
+            max-width: 338px;
+            animation: fadeIn 1.2s;
+        }
+        .welcome-title {
+            font-size: 2.2em;
+            color: #5b340b;
+            margin-bottom: 28px;
+            letter-spacing: 2px;
+            font-weight: bold;
+            text-shadow: 0 0 14px #fff;
+        }
+        .start-btn, .restart-btn {
+            font-size: 1.20em;
+            padding: 13px 40px;
+            background: linear-gradient(90deg, #fc881d, #ffbe76);
+            color: #222;
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(70,30,0,0.24);
+            cursor: pointer;
+            transition: background .3s;
+            margin-top: 6px;
+        }
+        .start-btn:hover, .restart-btn:hover {
+            background: linear-gradient(90deg, #ffbe76, #fc881d);
+        }
+        .quiz-card {
+            background: rgba(255,255,255,0.93);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(50,25,10,0.18);
+            padding: 24px 12px;
+            text-align: center;
+            min-width: 220px;
+            max-width: 260px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 1s;
+        }
+        .question {
+            font-size: 1.08em;
+            font-weight: bold;
+            color: #5b340b;
+            margin-bottom: 12px;
+        }
+        .options {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .option-btn {
+            font-size: 0.97em;
+            padding: 10px;
+            border: 2px solid #fc881d;
+            background: #fff9f2;
+            color: #5b340b;
+            border-radius: 11px;
+            cursor: pointer;
+            transition: background .2s, color .2s;
+        }
+        .option-btn:hover {
+            background: #ffebd2;
+            color: #ba4a00;
+        }
+        .progress {
+            font-size: 1em;
+            margin-bottom: 5px;
+            color: #c85000;
+            font-weight: bold;
+        }
+        .timer {
+            font-size: 1.04em;
+            margin-bottom: 9px;
+            color: #0a00ad;
+            font-weight: bold;
+        }
+        .lose-card {
+            background: rgba(255,255,255,0.96);
+            border-radius: 20px;
+            box-shadow: 0 8px 40px rgba(140,50,0,0.18);
+            padding: 40px 12px;
+            text-align: center;
+            font-size: 1.13em;
+            color: #ad0e20;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 1.2s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; } to { opacity: 1; }
+        }
+        @media (max-height: 650px) {
+            .quiz-card { padding: 10px 2px; max-width: 90vw; }
+        }
+    </style>
+</head>
+<body>
+    <div id="main" class="center-container"></div>
+    <script>
+        window.onunload = window.onbeforeunload = function() {
+            location.replace(location.pathname + location.search);
+        };
+
+        const questions = [
+            { q: "What virtual machine is Fogo Chain based on?", options: ["EVM", "SVM", "NEAR", "Move"], correct: 1 },
+            { q: "What is the purpose of the Firedancer client in Fogo Chain?", options: ["Increasing privacy", "Providing speed and scalability", "Token generation", "User scoring"], correct: 1 },
+            { q: "What is the approximate transactions per second (TPS) claimed by Fogo Chain?", options: ["10,000", "100,000", "1,000,000", "100,000,000"], correct: 2 },
+            { q: "With which ecosystem is Fogo Chain compatible for dApp migration?", options: ["Polkadot", "Solana", "Avalanche", "Cardano"], correct: 1 },
+            { q: "Where is Fogo Chain registered?", options: ["USA", "United Kingdom", "Cayman Islands", "Singapore"], correct: 2 },
+            { q: "What describes Multi-local Consensus in Fogo Chain?", options: ["Mechanism for global consensus","Local transaction confirmations in zones","Processing transactions through smart contracts","Price oracle"], correct: 1 },
+            { q: "What is the main target audience of Fogo Chain?", options: ["Gamers", "Institutional traders", "Miners", "NFT collectors"], correct: 1 },
+            { q: "What is the approximate block time in Fogo Chain?", options: ["1 second","1 minute","40 milliseconds","1 hour"], correct: 2 },
+            { q: "Who develops the Firedancer client?", options: ["Jump Crypto","Solana Labs","Fogo Foundation","Ethereum Foundation"], correct: 0 },
+            { q: "What type of DEX is built into Fogo Chain's architecture?", options: ["CEX","AMM DEX","Order-book DEX","No DEX"], correct: 2 }
+        ];
+
+        const mainElem = document.getElementById('main');
+        let current = 0;
+        let timeLeft = 180;
+        let timerInterval = null;
+
+        // Инициализация стартовой плашки
+        function showWelcome() {
+            mainElem.innerHTML = `
+                <div class="welcome-card">
+                    <div class="welcome-title">Welcome to Fogo Quiz</div>
+                    <button class="start-btn">Start</button>
+                </div>
+            `;
+            document.querySelector('.start-btn').onclick = startQuiz;
+        }
+
+        function startQuiz() {
+            current = 0;
+            timeLeft = 180;
+            renderQuiz();
+            startTimer();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            updateTimerUI();
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerUI();
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    showLose();
+                }
+            }, 1000);
+        }
+        function updateTimerUI() {
+            const timerEl = document.getElementById('timer');
+            if (timerEl) timerEl.innerText = `${timeLeft}s`;
+        }
+
+        function renderQuiz() {
+            mainElem.innerHTML = '';
+            const quizCard = document.createElement('div');
+            quizCard.className = 'quiz-card';
+            // Таймер
+            const timer = document.createElement('div');
+            timer.id = 'timer';
+            timer.className = 'timer';
+            timer.innerText = `${timeLeft}s`;
+            quizCard.appendChild(timer);
+            // Прогресс
+            const progress = document.createElement('div');
+            progress.className = 'progress';
+            progress.innerText = `Q: ${current + 1}/10`;
+            quizCard.appendChild(progress);
+            // Вопрос
+            const questionText = document.createElement('div');
+            questionText.className = 'question';
+            questionText.innerText = questions[current].q;
+            quizCard.appendChild(questionText);
+            // Варианты ответов
+            const optionsWrapper = document.createElement('div');
+            optionsWrapper.className = 'options';
+            questions[current].options.forEach((option, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = String.fromCharCode(65 + idx) + ') ' + option;
+                btn.onclick = () => handleAnswer(idx);
+                optionsWrapper.appendChild(btn);
+            });
+            quizCard.appendChild(optionsWrapper);
+            mainElem.appendChild(quizCard);
+        }
+
+        function handleAnswer(selectedIdx) {
+            if (selectedIdx === questions[current].correct) {
+                current++;
+                if (current < questions.length) {
+                    renderQuiz();
+                } else {
+                    clearInterval(timerInterval);
+                    showWin();
+                }
+            } else {
+                clearInterval(timerInterval);
+                showLose();
+            }
+        }
+
+        function showWin() {
+            mainElem.innerHTML =
+                `<div class="lose-card" style="color:#009432;">
+                  🎉 Congratulations! You won the Fogo Quiz!<br><br>
+                  <button class="restart-btn">Restart</button>
+                </div>`;
+            document.querySelector('.restart-btn').onclick = showWelcome;
+        }
+
+        function showLose() {
+            mainElem.innerHTML =
+                `<div class="lose-card">
+                  You Lose!<br><br>
+                  <button class="restart-btn">Restart</button>
+                </div>`;
+            document.querySelector('.restart-btn').onclick = showWelcome;
+        }
+
+        // Показываем стартовую карточку
+        window.onload = showWelcome;
+
+        // Сброс при обновлении/закрытии окна
+        window.onunload = window.onbeforeunload = function() {
+            location.replace(location.pathname + location.search);
+        };
+    </script>
+</body>
+</html>
+
