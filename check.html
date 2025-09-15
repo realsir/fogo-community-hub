@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fogo CheckList</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      min-height: 100vh;
+      box-sizing: border-box;
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: #ffe3bf;
+      color: #272626;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      background: #ffe3bf;
+      border-radius: 26px;
+      padding: 52px 48px 46px 48px;
+      margin-top: 48px;
+      box-shadow: 0 12px 52px 0 rgba(255,140,0,0.09);
+      max-width: 680px;
+      width: 98vw;
+      min-height: 550px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    .fogo-title {
+      font-weight: 900;
+      font-size: 2.7rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 33px;
+      text-align: center;
+      background: linear-gradient(90deg, #ff7e5f 12%, #ff9d63 40%, #ff65a3 90%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 4px 18px #ffad67a6;
+      font-family: 'Montserrat', Arial, sans-serif;
+      border-radius: 12px;
+      padding: 10px 0 8px 0;
+      border-bottom: 2.5px solid #ffae42;
+      user-select: none;
+    }
+    section {
+      margin-bottom: 40px;
+    }
+    .section-label {
+      font-weight: bold;
+      margin-bottom: 14px;
+      font-size: 1.19rem;
+      color: #ff9933;
+      letter-spacing: 0.03em;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      font-size: 1.14rem;
+      margin-bottom: 16px;
+      transition: background 0.18s;
+    }
+    .checklist-item label {
+      flex: 1;
+      cursor: pointer;
+      transition: color 0.17s, text-decoration .21s;
+      padding-left: 14px;
+      user-select: none;
+      background: transparent;
+    }
+    .checklist-item input[type="checkbox"] {
+      appearance: none;
+      width: 26px;
+      height: 26px;
+      border: 2.5px solid #ff9933;
+      border-radius: 7px;
+      background: #ffe3bf;
+      outline: none;
+      cursor: pointer;
+      position: relative;
+      transition: border-color 0.16s;
+      margin-right: 11px;
+      vertical-align: middle;
+    }
+    .checklist-item input[type="checkbox"]:checked {
+      border-color: #ff6152;
+      background: #ffe3bf;
+    }
+    .checklist-item input[type="checkbox"]:checked:after {
+      content: '✔';
+      position: absolute;
+      left: 3px;
+      top: 1px;
+      color: #ff6152;
+      font-weight: bold;
+      font-size: 1.4em;
+    }
+    .checklist-item.completed label {
+      color: #c4c4b7;
+      text-decoration: line-through;
+      opacity: 0.67;
+      background: transparent;
+    }
+    @media (max-width: 900px) {
+      .container {
+        max-width: 98vw;
+        padding: 40px 16px;
+      }
+      .fogo-title {
+        font-size: 1.82rem;
+      }
+    }
+    @media (max-width: 600px) {
+      .container {
+        max-width: 100vw;
+        padding: 18px 3vw;
+        border-radius: 13px;
+      }
+      .fogo-title {
+        font-size: 1.14rem;
+      }
+      .checklist-item label { font-size: 1rem; }
+      .checklist-item input[type="checkbox"] { width: 20px; height: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="fogo-title">Fogo CheckList</div>
+    <section>
+      <div class="section-label">Off-chain</div>
+      <ul>
+        <li class="checklist-item">
+          <input type="checkbox" id="c1"><label for="c1">Say gFogo in general & local chat</label>
+        </li>
+        <li class="checklist-item">
+          <input type="checkbox" id="c2"><label for="c2">Make a post about Fogo on X</label>
+        </li>
+        <li class="checklist-item">
+          <input type="checkbox" id="c3"><label for="c3">Support each other in #x-sharing</label>
+        </li>
+        <li class="checklist-item">
+          <input type="checkbox" id="c4"><label for="c4">Post something in Lifestyle channel</label>
+        </li>
+      </ul>
+    </section>
+    <section>
+      <div class="section-label">On-chain</div>
+      <ul>
+        <li class="checklist-item">
+          <input type="checkbox" id="c5"><label for="c5">Interact with Ambient</label>
+        </li>
+        <li class="checklist-item">
+          <input type="checkbox" id="c6"><label for="c6">Interact with Valient</label>
+        </li>
+        <li class="checklist-item">
+          <input type="checkbox" id="c7"><label for="c7">Interact with Fogolend</label>
+        </li>
+        <li class="checklist-item">
+          <input type="checkbox" id="c8"><label for="c8">Interact with Brasa</label>
+        </li>
+        <li class="checklist-item">
+          <input type="checkbox" id="c9"><label for="c9">Interact with Pyron</label>
+        </li>
+        <li class="checklist-item">
+          <input type="checkbox" id="c10"><label for="c10">Interact with FluxBeam</label>
+        </li>
+      </ul>
+    </section>
+  </div>
+  <script>
+    document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(function(checkbox) {
+      checkbox.addEventListener('change', function() {
+        const item = checkbox.closest('.checklist-item');
+        if (checkbox.checked) {
+          item.classList.add('completed');
+        } else {
+          item.classList.remove('completed');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

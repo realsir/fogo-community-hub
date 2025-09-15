@@ -26,7 +26,13 @@
       left: 28px;
       z-index: 10;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      align-items: center;
+      gap: 18px;
+    }
+    .fogo-brain-row {
+      display: flex;
+      flex-direction: row;
       align-items: center;
       gap: 18px;
     }
@@ -82,7 +88,8 @@
       .bird-side-row { gap: 13px; margin-left: 7px;}
       .icon-caption { font-size: 13px; max-width: 65px; }
       .desktop-icon.realsir-dev { right: 10px; bottom: 12px;}
-      .fogo-icons { left: 8px; }
+      .fogo-icons { left: 8px; gap: 13px;}
+      .fogo-brain-row { gap: 13px;}
     }
     @media (max-width: 600px) {
       .icon-block { left: 5px;}
@@ -91,7 +98,8 @@
       .bird-side-row { gap: 5px; margin-left: 2px;}
       .icon-caption { font-size: 12px; max-width: 47px;}
       .desktop-icon.realsir-dev { right: 4px; bottom: 6px;}
-      .fogo-icons { top: 320px; }
+      .fogo-icons { top: 320px; gap: 7px;}
+      .fogo-brain-row { gap: 7px;}
     }
     .bird-row-wrap {
       display: flex;
@@ -135,14 +143,12 @@
       cursor: default;
       transition: none;
     }
-    .hub-title:hover {}
     @keyframes title-blink {
       0%, 100% { filter: brightness(1) drop-shadow(0 4px 22px #ffb23b29);}
       45% { filter: brightness(1.12) drop-shadow(0 8px 40px #ffae4268);}
       55% { filter: brightness(0.5) drop-shadow(0 4px 18px #ffae4220);}
       70% { filter: brightness(1.1) drop-shadow(0 12px 40px #ffae4266);}
     }
-    /* Модальное окно */
     .modal {
       display: none;
       position: fixed;
@@ -192,18 +198,23 @@
   </style>
 </head>
 <body>
-  <!-- Контейнер для пары иконок слева -->
+  <!-- fogo-icons flex-ряд: все иконки ровно по центру -->
   <div class="fogo-icons">
     <div class="desktop-icon dont-click-fogo" onclick="window.open('https://dont-click-fogo.vercel.app/', '_blank')">
       <img src="krest.png" alt="Don't Click Fogo">
       <div class="icon-caption">Don't Click Fogo!</div>
     </div>
-    <div class="desktop-icon fogo-brain" onclick="document.getElementById('fogoBrainModal').style.display='block'">
-      <img src="brain.png" alt="Fogo Brain">
-      <div class="icon-caption">Fogo Brain</div>
+    <div class="fogo-brain-row">
+      <div class="desktop-icon fogo-brain" onclick="document.getElementById('fogoBrainModal').style.display='block'">
+        <img src="brain.png" alt="Fogo Brain">
+        <div class="icon-caption">Fogo Brain</div>
+      </div>
+      <div class="desktop-icon check-fogo" onclick="document.getElementById('checkFogoModal').style.display='block'">
+        <img src="check.png" alt="Check Fogo">
+        <div class="icon-caption">Check Fogo!</div>
+      </div>
     </div>
   </div>
-  <!-- Новая иконка realsir (dev) в правом нижнем углу -->
   <div class="desktop-icon realsir-dev" onclick="window.open('https://x.com/realsirandrew', '_blank')">
     <img src="pix.png" alt="realsir (dev)">
     <div class="icon-caption">realsir (dev)</div>
@@ -211,24 +222,20 @@
   <div class="icon-block">
     <div class="bird-row-wrap">
       <div class="bird-col">
-        <!-- Fogo Bird (fly.png) -->
         <div class="desktop-icon" onclick="window.open('https://fogo-floppy-bird.vercel.app/', '_blank')">
           <img src="fly.png" alt="Fogo Bird">
           <div class="icon-caption">Fogo Bird</div>
         </div>
-        <!-- Testnet Guide (guide.png) -->
         <div class="desktop-icon" style="margin-top: 28px;" onclick="window.open('https://fogo-testnet-guide.vercel.app/', '_blank')">
           <img src="guide.png" alt="Testnet Guide">
           <div class="icon-caption">Testnet Guide</div>
         </div>
       </div>
       <div class="bird-side-row">
-        <!-- Hit Fire (fire.png) -->
         <div class="desktop-icon" onclick="window.open('https://fogo-hit-fire-game.vercel.app/', '_blank')">
           <img src="fire.png" alt="Hit Fire">
           <div class="icon-caption">Hit Fire</div>
         </div>
-        <!-- Run Game (run.png) -->
         <div class="desktop-icon" onclick="window.open('https://fogo-run-game.vercel.app/', '_blank')">
           <img src="run.png" alt="Run Game">
           <div class="icon-caption">Run Game</div>
@@ -236,11 +243,16 @@
       </div>
     </div>
   </div>
-  <!-- Модальное окно для Fogo Brain -->
   <div id="fogoBrainModal" class="modal" onclick="if(event.target === this) this.style.display='none'">
     <div class="modal-content">
       <button class="modal-close" onclick="document.getElementById('fogoBrainModal').style.display='none'">&times;</button>
       <iframe src="brain.html"></iframe>
+    </div>
+  </div>
+  <div id="checkFogoModal" class="modal" onclick="if(event.target === this) this.style.display='none'">
+    <div class="modal-content">
+      <button class="modal-close" onclick="document.getElementById('checkFogoModal').style.display='none'">&times;</button>
+      <iframe src="check.html"></iframe>
     </div>
   </div>
   <div class="hub-title" title="Fogo Community Hub">
@@ -248,3 +260,4 @@
   </div>
 </body>
 </html>
+
