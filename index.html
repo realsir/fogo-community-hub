@@ -15,10 +15,122 @@
     body {
       min-height: 100vh;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
-      background: linear-gradient(135deg, #ffb347 0%, #ff8360 100%);
+      background: radial-gradient(circle at 25% 30%, #ffbf60 0%, #ff9b47 40%, #ff605c 100%);
       color: #fff;
       overflow: hidden;
       position: relative;
+    }
+    /* Падающие надписи Fogo */
+    #falling-fogo-bg {
+      position: fixed;
+      z-index: 0;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .falling-fogo {
+      position: absolute;
+      top: -70px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      user-select: none;
+      pointer-events: none;
+      text-shadow:
+        0 4px 15px #ffb34755,
+        0 0 35px #ff893030;
+      transition: opacity 0.45s;
+      white-space: nowrap;
+      letter-spacing: 0.12em;
+      filter: blur(0.7px);
+    }
+    /* Анимированные лучи */
+    .visual-rays {
+      position: fixed;
+      z-index: 1;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .ray {
+      position: absolute;
+      width: 110vw;
+      height: 32vh;
+      left: -10vw;
+      top: 35vh;
+      background: linear-gradient(114deg, transparent 0%, #ffe79d52 55%, #ffb347a1 99%);
+      filter: blur(17px);
+      opacity: 0.45;
+      transform: rotate(7deg);
+      animation: rayglow 4.4s infinite linear alternate;
+      border-radius: 22vw;
+    }
+    .ray.r2 {
+      top: 60vh; left: -15vw;
+      background: linear-gradient(97deg, transparent 0%, #ffebd1ac 67%, #ff893088 100%);
+      animation-delay: 2.1s;
+      width: 90vw; height: 17vh;
+      filter: blur(11px);
+      opacity: 0.32;
+      transform: rotate(-7deg);
+    }
+    @keyframes rayglow {
+      to { opacity: 0.6; filter: blur(19px);}
+    }
+    /* Заголовок: 3D-эффект + свет */
+    .hub-title {
+      position: absolute;
+      top: 7%;
+      left: 50%;
+      transform: translate(-50%, 0%);
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      font-size: 3.8rem;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      white-space: nowrap;
+      background: linear-gradient(90deg, #fff9e2 7%, #ffd798 38%, #ff8930 76%, #ff7361 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow:
+        0 4px 18px #ffaa5a99,
+        0px 2px 0px #ffa833,
+        0px 7px 22px #ffac3225;
+      filter: drop-shadow(0 2px 28px #ffb23b55);
+      animation: title-3d-wave 2.9s cubic-bezier(.57,.54,.56,.86) infinite;
+      padding: 18px 42px 18px 42px;
+      border-radius: 28px;
+      border: 4px solid rgba(255, 195, 85, 0.12);
+      box-shadow: 0 6px 38px 0 rgba(255, 115, 20, 0.13);
+      user-select: none;
+      cursor: pointer;
+      transition: transform .21s;
+    }
+    .hub-title:hover {
+      transform: translate(-50%, 0%) scale(1.04) rotate(-1deg);
+      filter: brightness(1.14) drop-shadow(0 7px 50px #ffae4268);
+    }
+    @keyframes title-3d-wave {
+      0%    {letter-spacing: 0.09em;}
+      45%   {letter-spacing: 0.12em;}
+      58%   {letter-spacing: 0.07em; filter: brightness(1.11);}
+      72%   {letter-spacing: 0.18em; filter: brightness(.93);}
+      86%,
+      100%  {letter-spacing: 0.09em;}
+    }
+    /* иконки: пузырьковый эффект на hover */
+    .desktop-icon img {
+      width: 60px;
+      height: 60px;
+      transition: transform 0.22s, box-shadow .19s;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px 0 rgba(255,140,0,0.13);
+    }
+    .desktop-icon img:hover {
+      transform: scale(1.14) rotate(-7deg) translateY(-4px);
+      box-shadow: 0 18px 33px 0 rgba(255,100,0,0.15), 0 0 23px #ffb34755;
+      filter: drop-shadow(0 0 15px #ffae4266);
+      opacity: .93;
     }
     .fogo-icons {
       position: absolute;
@@ -53,18 +165,11 @@
       user-select: none;
       text-align: center;
       max-width: 90px;
-      line-height: 1.14;
+      line-height: 1.2;
+      transition: transform .17s;
     }
-    .desktop-icon img {
-      width: 60px;
-      height: 60px;
-      transition: transform 0.17s;
-      border-radius: 14px;
-      box-shadow: 0 8px 20px 0 rgba(255,140,0,0.12);
-    }
-    .desktop-icon img:hover {
-      transform: scale(1.11) rotate(-6deg);
-      box-shadow: 0 13px 32px 0 rgba(255,100,0,0.16);
+    .desktop-icon img:hover + .icon-caption {
+      transform: scale(1.12) translateY(-2px);
     }
     .desktop-icon.realsir-dev {
       position: fixed;
@@ -120,35 +225,7 @@
       margin-top: 0;
       align-items: flex-start;
     }
-    .hub-title {
-      position: absolute;
-      top: 6%;
-      left: 50%;
-      transform: translate(-50%, 0%);
-      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-      font-size: 3.8rem;
-      font-weight: 800;
-      letter-spacing: 0.09em;
-      white-space: nowrap;
-      background: linear-gradient(90deg, #fff9e2 7%, #ffd798 38%, #ff8930 76%, #ff7361 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 3px 17px #ffaa5a44;
-      animation: title-blink 2.8s ease-in-out infinite;
-      padding: 13px 38px 13px 38px;
-      border-radius: 22px;
-      border: 3.5px solid rgba(255, 195, 85, 0.17);
-      box-shadow: 0 6px 38px 0 rgba(255, 115, 20, 0.09);
-      user-select: none;
-      cursor: default;
-      transition: none;
-    }
-    @keyframes title-blink {
-      0%, 100% { filter: brightness(1) drop-shadow(0 4px 22px #ffb23b29);}
-      45% { filter: brightness(1.12) drop-shadow(0 8px 40px #ffae4268);}
-      55% { filter: brightness(0.5) drop-shadow(0 4px 18px #ffae4220);}
-      70% { filter: brightness(1.1) drop-shadow(0 12px 40px #ffae4266);}
-    }
+    /* Модальные */
     .modal {
       display: none;
       position: fixed;
@@ -198,7 +275,12 @@
   </style>
 </head>
 <body>
-  
+  <!-- Падающие надписи Fogo -->
+  <div id="falling-fogo-bg"></div>
+  <div class="visual-rays">
+    <div class="ray"></div>
+    <div class="ray r2"></div>
+  </div>
   <div class="fogo-icons">
     <div class="desktop-icon dont-click-fogo" onclick="window.open('https://dont-click-fogo.vercel.app/', '_blank')">
       <img src="krest.png" alt="Don't Click Fogo">
@@ -231,7 +313,6 @@
           <div class="icon-caption">Testnet Guide</div>
         </div>
       </div>
-      
       <div class="bird-side-row">
         <div class="desktop-icon" onclick="window.open('https://fogo-hit-fire-game.vercel.app/', '_blank')">
           <img src="fire.png" alt="Hit Fire">
@@ -241,7 +322,6 @@
           <img src="run.png" alt="Run Game">
           <div class="icon-caption">Run Game</div>
         </div>
-        
         <div class="desktop-icon" onclick="window.open('https://fogo-three-in-row.vercel.app/', '_blank')">
           <img src="6.png" alt="Three in Row">
           <div class="icon-caption">Three in Row</div>
@@ -264,5 +344,39 @@
   <div class="hub-title" title="Fogo Community Hub">
     Fogo Community Hub
   </div>
+  <script>
+    const colors = [
+      "rgba(255,170,85,0.28)",
+      "rgba(255,140,40,0.24)",
+      "rgba(255,135,70,0.26)",
+      "rgba(255,200,125,0.22)"
+    ];
+    function createFogoLabel() {
+      const label = document.createElement("div");
+      label.textContent = "Fogo";
+      label.className = "falling-fogo";
+      label.style.left = Math.random() * 97 + "vw";
+      label.style.fontSize = (2.6 + Math.random() * 2.4) + "rem";
+      label.style.opacity = 0.6 + Math.random() * 0.5;
+      label.style.filter = "blur(0.7px)";
+      label.style.color = colors[Math.floor(Math.random() * colors.length)];
+      document.getElementById("falling-fogo-bg").appendChild(label);
+      let top = -65;
+      const speed = 0.9 + Math.random() * 1.4;
+      function animate() {
+        top += speed;
+        label.style.top = top + "px";
+        if (top > window.innerHeight + 90) {
+          label.remove();
+        } else {
+          requestAnimationFrame(animate);
+        }
+      }
+      animate();
+    }
+    setInterval(createFogoLabel, 900);
+    for (let i = 0; i < 6; i++) createFogoLabel();
+  </script>
 </body>
 </html>
+
