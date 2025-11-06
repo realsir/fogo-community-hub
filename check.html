@@ -1,196 +1,256 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Fogo CheckList</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+
     html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      min-height: 100vh;
-      box-sizing: border-box;
+      margin: 0; padding: 0; height: 100%;
       font-family: 'Montserrat', Arial, sans-serif;
-      background: #ffe3bf;
-      color: #272626;
-      overflow-y: auto;
+      background: #fff7ed;
+      color: #2a2a2a;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
+
     .container {
-      background: #ffe3bf;
-      border-radius: 26px;
-      padding: 52px 48px 46px 48px;
-      margin-top: 48px;
-      box-shadow: 0 12px 52px 0 rgba(255,140,0,0.09);
-      max-width: 680px;
-      width: 98vw;
-      min-height: 550px;
+      background: #fff;
+      max-width: 720px;
+      width: 100%;
+      border-radius: 18px;
+      box-shadow: 0 10px 40px rgba(255, 140, 0, 0.15);
+      padding: 48px 56px;
+      box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      gap: 48px;
     }
+
     .fogo-title {
       font-weight: 900;
-      font-size: 2.7rem;
-      letter-spacing: 0.08em;
-      margin-bottom: 33px;
+      font-size: 3rem;
+      letter-spacing: 0.12em;
       text-align: center;
-      background: linear-gradient(90deg, #ff7e5f 12%, #ff9d63 40%, #ff65a3 90%);
+      background: linear-gradient(90deg, #ff7e5f 0%, #ff9d63 40%, #ff65a3 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 4px 18px #ffad67a6;
-      font-family: 'Montserrat', Arial, sans-serif;
-      border-radius: 12px;
-      padding: 10px 0 8px 0;
-      border-bottom: 2.5px solid #ffae42;
+      text-shadow: 0 5px 20px rgba(255, 160, 80, 0.8);
       user-select: none;
+      margin-bottom: 0;
+      border-bottom: 3px solid #ffae42;
+      padding-bottom: 12px;
+      border-radius: 10px;
     }
+
     section {
-      margin-bottom: 40px;
+      background: #fff3db;
+      border-radius: 14px;
+      box-shadow: 0 6px 18px rgb(255 140 0 / 0.1);
+      padding: 28px 32px;
+      transition: box-shadow 0.3s ease;
     }
+    section:hover {
+      box-shadow: 0 12px 36px rgb(255 140 0 / 0.3);
+    }
+
     .section-label {
-      font-weight: bold;
-      margin-bottom: 14px;
-      font-size: 1.19rem;
-      color: #ff9933;
-      letter-spacing: 0.03em;
+      font-weight: 700;
+      font-size: 1.45rem;
+      color: #ff7e3f;
+      margin-bottom: 18px;
+      letter-spacing: 0.04em;
+      user-select: none;
+      border-left: 6px solid #ff9d63;
+      padding-left: 14px;
+      text-transform: uppercase;
     }
+
     ul {
       list-style: none;
       padding: 0;
       margin: 0;
     }
+
     .checklist-item {
       display: flex;
       align-items: center;
-      font-size: 1.14rem;
-      margin-bottom: 16px;
-      transition: background 0.18s;
+      margin-bottom: 20px;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: #4a4a4a;
+      cursor: pointer;
+      transition: color 0.25s ease;
     }
+    .checklist-item:last-child {
+      margin-bottom: 0;
+    }
+
     .checklist-item label {
       flex: 1;
-      cursor: pointer;
-      transition: color 0.17s, text-decoration .21s;
-      padding-left: 14px;
       user-select: none;
-      background: transparent;
+      padding-left: 16px;
+      transition: color 0.3s, text-decoration 0.3s;
     }
+
+    /* Custom checkbox */
     .checklist-item input[type="checkbox"] {
       appearance: none;
-      width: 26px;
-      height: 26px;
-      border: 2.5px solid #ff9933;
-      border-radius: 7px;
-      background: #ffe3bf;
-      outline: none;
-      cursor: pointer;
+      -webkit-appearance: none;
+      width: 28px;
+      height: 28px;
+      border: 3px solid #ff9933;
+      border-radius: 8px;
+      background-color: #fff7e6;
       position: relative;
-      transition: border-color 0.16s;
-      margin-right: 11px;
-      vertical-align: middle;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+      box-shadow: inset 0 2px 5px rgb(255 185 95 / 0.35);
+    }
+    .checklist-item input[type="checkbox"]:hover {
+      border-color: #ff7e50;
+      box-shadow: 0 0 10px #ff7e50;
     }
     .checklist-item input[type="checkbox"]:checked {
-      border-color: #ff6152;
-      background: #ffe3bf;
+      background-color: #ff7e5f;
+      border-color: #ff7e5f;
+      box-shadow: 0 0 10px #ff7e5f;
     }
-    .checklist-item input[type="checkbox"]:checked:after {
-      content: '✔';
+    .checklist-item input[type="checkbox"]:checked::after {
+      content: '✓';
       position: absolute;
-      left: 3px;
-      top: 1px;
-      color: #ff6152;
-      font-weight: bold;
-      font-size: 1.4em;
+      top: 2px;
+      left: 7px;
+      font-size: 1.6rem;
+      color: #fff;
+      font-weight: 900;
+      pointer-events: none;
+      user-select: none;
+      text-shadow: 0 0 3px rgba(0,0,0,0.15);
     }
+
+    /* Completed styles */
     .checklist-item.completed label {
-      color: #c4c4b7;
+      color: #a19d8c;
       text-decoration: line-through;
-      opacity: 0.67;
-      background: transparent;
+      opacity: 0.6;
     }
-    @media (max-width: 900px) {
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      html, body {
+        padding: 30px 15px;
+      }
       .container {
-        max-width: 98vw;
-        padding: 40px 16px;
+        padding: 32px 24px;
       }
       .fogo-title {
-        font-size: 1.82rem;
+        font-size: 2.2rem;
+        border-bottom-width: 2px;
+      }
+      section {
+        padding: 24px 20px;
+      }
+      .section-label {
+        font-size: 1.25rem;
+        padding-left: 10px;
+        border-left-width: 5px;
+      }
+      .checklist-item {
+        font-size: 1.1rem;
+      }
+      .checklist-item input[type="checkbox"] {
+        width: 24px;
+        height: 24px;
       }
     }
-    @media (max-width: 600px) {
-      .container {
-        max-width: 100vw;
-        padding: 18px 3vw;
-        border-radius: 13px;
-      }
+    @media (max-width: 480px) {
       .fogo-title {
-        font-size: 1.14rem;
+        font-size: 1.75rem;
+        border-bottom-width: 2px;
+        letter-spacing: 0.06em;
       }
-      .checklist-item label { font-size: 1rem; }
-      .checklist-item input[type="checkbox"] { width: 20px; height: 20px; }
+      .checklist-item {
+        font-size: 1rem;
+      }
+      .checklist-item input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="fogo-title">Fogo CheckList</div>
-    <section>
-      <div class="section-label">Off-chain</div>
+  <div class="container" role="main" aria-label="Fogo checklist container">
+    <h1 class="fogo-title">Fogo CheckList</h1>
+    <section aria-labelledby="offchain-label" tabindex="0">
+      <h2 id="offchain-label" class="section-label">Off-chain</h2>
       <ul>
         <li class="checklist-item">
-          <input type="checkbox" id="c1"><label for="c1">Say gFogo in general & local chat</label>
+          <input type="checkbox" id="c1" />
+          <label for="c1">Say gFogo in general &amp; local chat</label>
         </li>
         <li class="checklist-item">
-          <input type="checkbox" id="c2"><label for="c2">Make a post about Fogo on X</label>
+          <input type="checkbox" id="c2" />
+          <label for="c2">Make a post about Fogo on X</label>
         </li>
         <li class="checklist-item">
-          <input type="checkbox" id="c3"><label for="c3">Support each other in #x-sharing</label>
+          <input type="checkbox" id="c3" />
+          <label for="c3">Support each other in #x-sharing</label>
         </li>
         <li class="checklist-item">
-          <input type="checkbox" id="c4"><label for="c4">Post something in Lifestyle channel</label>
+          <input type="checkbox" id="c4" />
+          <label for="c4">Post something in Lifestyle channel</label>
         </li>
       </ul>
     </section>
-    <section>
-      <div class="section-label">On-chain</div>
+    <section aria-labelledby="onchain-label" tabindex="0">
+      <h2 id="onchain-label" class="section-label">On-chain</h2>
       <ul>
         <li class="checklist-item">
-          <input type="checkbox" id="c5"><label for="c5">Interact with Ambient</label>
+          <input type="checkbox" id="c5" />
+          <label for="c5">Interact with Ambient</label>
         </li>
         <li class="checklist-item">
-          <input type="checkbox" id="c6"><label for="c6">Interact with Valient</label>
+          <input type="checkbox" id="c6" />
+          <label for="c6">Interact with Valient</label>
         </li>
         <li class="checklist-item">
-          <input type="checkbox" id="c7"><label for="c7">Interact with Fogolend</label>
+          <input type="checkbox" id="c7" />
+          <label for="c7">Interact with Fogolend</label>
         </li>
         <li class="checklist-item">
-          <input type="checkbox" id="c8"><label for="c8">Interact with Brasa</label>
+          <input type="checkbox" id="c8" />
+          <label for="c8">Interact with Brasa</label>
         </li>
         <li class="checklist-item">
-          <input type="checkbox" id="c9"><label for="c9">Interact with Pyron</label>
+          <input type="checkbox" id="c9" />
+          <label for="c9">Interact with Pyron</label>
         </li>
         <li class="checklist-item">
-          <input type="checkbox" id="c10"><label for="c10">Interact with FluxBeam</label>
+          <input type="checkbox" id="c10" />
+          <label for="c10">Interact with FluxBeam</label>
         </li>
       </ul>
     </section>
   </div>
+
   <script>
-    document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(function(checkbox) {
-      checkbox.addEventListener('change', function() {
-        const item = checkbox.closest('.checklist-item');
-        if (checkbox.checked) {
-          item.classList.add('completed');
-        } else {
-          item.classList.remove('completed');
-        }
+    // Toggle completed class on check/uncheck
+    document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(checkbox => {
+      checkbox.addEventListener('change', () => {
+        checkbox.closest('.checklist-item').classList.toggle('completed', checkbox.checked);
       });
     });
   </script>
 </body>
 </html>
+

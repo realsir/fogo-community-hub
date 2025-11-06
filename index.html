@@ -10,15 +10,8 @@
     body {
       min-height:100vh;
       font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,Arial,sans-serif;
-      background:radial-gradient(circle at 25% 30%, #ffbf60 0%, #ff9b47 40%, #ff605c 100%);
+      background: url('fogo-fon.png') center center / cover no-repeat fixed;
       color:#fff; overflow:hidden; position:relative;
-    }
-    #falling-fogo-bg { position:fixed; z-index:0; inset:0; width:100vw; height:100vh; pointer-events:none; overflow:hidden; }
-    .falling-fogo {
-      position:absolute; top:-70px; font-family:'Montserrat',sans-serif;font-weight:800;
-      user-select:none; pointer-events:none;
-      text-shadow: 0 4px 15px #ffb34755, 0 0 35px #ff893030;
-      transition:opacity 0.45s; white-space:nowrap; letter-spacing:0.12em; filter:blur(0.7px);
     }
     .visual-rays { position:fixed; z-index:1; inset:0; pointer-events:none; overflow:hidden;}
     .ray {
@@ -125,7 +118,6 @@
   </style>
 </head>
 <body>
-  <div id="falling-fogo-bg"></div>
   <div class="visual-rays">
     <div class="ray"></div>
     <div class="ray r2"></div>
@@ -209,38 +201,5 @@
   <div class="hub-title" title="Fogo Community Hub">
     Fogo Community Hub
   </div>
-  <script>
-    const colors = [
-      "rgba(255,170,85,0.28)",
-      "rgba(255,140,40,0.24)",
-      "rgba(255,135,70,0.26)",
-      "rgba(255,200,125,0.22)"
-    ];
-    function createFogoLabel() {
-      const label = document.createElement("div");
-      label.textContent = "Fogo";
-      label.className = "falling-fogo";
-      label.style.left = Math.random() * 97 + "vw";
-      label.style.fontSize = (2.6 + Math.random() * 2.4) + "rem";
-      label.style.opacity = 0.6 + Math.random() * 0.5;
-      label.style.filter = "blur(0.7px)";
-      label.style.color = colors[Math.floor(Math.random() * colors.length)];
-      document.getElementById("falling-fogo-bg").appendChild(label);
-      let top = -65;
-      const speed = 0.9 + Math.random() * 1.4;
-      function animate() {
-        top += speed;
-        label.style.top = top + "px";
-        if (top > window.innerHeight + 90) {
-          label.remove();
-        } else {
-          requestAnimationFrame(animate);
-        }
-      }
-      animate();
-    }
-    setInterval(createFogoLabel, 900);
-    for (let i = 0; i < 6; i++) createFogoLabel();
-  </script>
 </body>
 </html>
