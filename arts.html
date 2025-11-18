@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Fogo Arts Gallery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      min-height: 100vh;
+      min-width: 100vw;
+      background: linear-gradient(135deg, #ff9800 0%, #ffb347 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .gallery-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px;
+      width: 90vw;
+      max-width: 1120px;
+      padding: 40px 16px;
+    }
+    .photo-frame {
+      background: #fff;
+      border: 4px solid #ffd6a2;
+      border-radius: 23px;
+      box-shadow: 0 7px 28px rgba(233,137,0,0.12), 0 1px 6px #ffb34760;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .15s, box-shadow .17s;
+      cursor: pointer;
+    }
+    .photo-frame:hover {
+      transform: scale(1.04) rotate(-2deg);
+      box-shadow: 0 16px 42px rgba(255,200,70,0.20), 0 4px 18px #ffa00028;
+    }
+    .photo-frame img {
+      max-width: 210px;
+      max-height: 220px;
+      width: 100%;
+      height: auto;
+      border-radius: 14px;
+      display: block;
+      object-fit: cover;
+      background: #fff5e2;
+      pointer-events: none;
+      /* чтобы img не перехватывал клик; клик идет на родителя */
+    }
+    .modal {
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(30,16,5,0.72);
+      transition: opacity .12s;
+    }
+    .modal-content {
+      position: relative;
+      background: transparent;
+      border-radius: 24px;
+      box-shadow: 0 18px 85px #ff910011, 0 6px 24px #ff980088;
+      padding: 0;
+      max-width: 94vw;
+      max-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: modalshow .14s;
+    }
+    @keyframes modalshow {
+      from { opacity: 0; transform: scale(.8);}
+      to { opacity: 1; transform: scale(1);}
+    }
+    .modal-content img {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 18px;
+      border: 6px solid #ffd6a2;
+      background: #fffbe7;
+      box-shadow: 0 3px 25px #ffb34730;
+      display: block;
+    }
+    .modal-close {
+      position: absolute;
+      top: -22px; right: -18px;
+      background: #ffc28c;
+      color: #ff5722;
+      border: none;
+      border-radius: 50%;
+      font-size: 2.2rem;
+      width: 43px; height: 43px;
+      cursor: pointer;
+      box-shadow: 0 2px 10px #ff980071;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .15s, color .12s;
+      z-index: 12;
+    }
+    .modal-close:hover { background: #ff9800; color: #fff; }
+    @media (max-width:600px) {
+      .gallery-container {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 14px;
+        padding: 16px 2px;
+      }
+      .photo-frame {
+        padding: 5px;
+        border-width: 2px;
+      }
+      .photo-frame img {
+        max-width: 110px;
+        max-height: 120px;
+        border-radius: 9px;
+      }
+      .modal-content img {
+        max-width: 98vw;
+        max-height: 70vh;
+        border-width:3px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="gallery-container">
+    <div class="photo-frame" onclick="openModal('+fogo-1.jpg')"><img src="+fogo-1.jpg" alt="Fogo Art 1"></div>
+    <div class="photo-frame" onclick="openModal('+fogo-2.jpg')"><img src="+fogo-2.jpg" alt="Fogo Art 2"></div>
+    <div class="photo-frame" onclick="openModal('+fogo-3.jpg')"><img src="+fogo-3.jpg" alt="Fogo Art 3"></div>
+    <div class="photo-frame" onclick="openModal('+fogo-4.jpg')"><img src="+fogo-4.jpg" alt="Fogo Art 4"></div>
+    <div class="photo-frame" onclick="openModal('+fogo-5.jpg')"><img src="+fogo-5.jpg" alt="Fogo Art 5"></div>
+    <div class="photo-frame" onclick="openModal('+fogo-6.jpg')"><img src="+fogo-6.jpg" alt="Fogo Art 6"></div>
+    <div class="photo-frame" onclick="openModal('+fogo-7.jpg')"><img src="+fogo-7.jpg" alt="Fogo Art 7"></div>
+    <div class="photo-frame" onclick="openModal('+fogo-8.jpg')"><img src="+fogo-8.jpg" alt="Fogo Art 8"></div>
+    <div class="photo-frame" onclick="openModal('+fogo-9.jpg')"><img src="+fogo-9.jpg" alt="Fogo Art 9"></div>
+    <div class="photo-frame" onclick="openModal('+fogo-10.jpg')"><img src="+fogo-10.jpg" alt="Fogo Art 10"></div>
+  </div>
+  <div id="modal" class="modal" style="display:none;" onclick="closeModal(event)">
+    <div class="modal-content" id="modal-content">
+      <button class="modal-close" onclick="closeModal(event)">&times;</button>
+      <img src="" alt="Full Image" id="modal-img">
+    </div>
+  </div>
+  <script>
+    function openModal(src) {
+      var m = document.getElementById('modal');
+      var img = document.getElementById('modal-img');
+      img.src = src;
+      m.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(e) {
+      if (e.target.classList.contains('modal') || e.target.classList.contains('modal-close')) {
+        document.getElementById('modal').style.display = 'none';
+        document.getElementById('modal-img').src = '';
+        document.body.style.overflow = '';
+      }
+    }
+    // Закрытие по Esc
+    window.addEventListener('keydown',function(e){
+      if(e.key==='Escape') closeModal({target:document.getElementById('modal')});
+    });
+  </script>
+</body>
+</html>
