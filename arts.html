@@ -16,42 +16,45 @@
       min-width: 100vw;
       background: linear-gradient(135deg, #ff9800 0%, #ffb347 100%);
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
+      padding: 20px 0;
+      box-sizing: border-box;
     }
     .gallery-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 32px;
-      width: 90vw;
-      max-width: 1120px;
-      padding: 40px 16px;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+      width: 95%;
+      max-width: 1600px;
+      padding: 20px;
+      box-sizing: border-box;
     }
     .photo-frame {
       background: #fff;
       border: 4px solid #ffd6a2;
       border-radius: 23px;
       box-shadow: 0 7px 28px rgba(233,137,0,0.12), 0 1px 6px #ffb34760;
-      padding: 14px;
+      padding: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform .15s, box-shadow .17s;
+      transition: transform .15s ease, box-shadow .17s ease;
       cursor: pointer;
+      aspect-ratio: 1;
     }
     .photo-frame:hover {
-      transform: scale(1.04) rotate(-2deg);
-      box-shadow: 0 16px 42px rgba(255,200,70,0.20), 0 4px 18px #ffa00028;
+      transform: scale(1.05) rotate(-1deg);
+      box-shadow: 0 20px 45px rgba(255,200,70,0.25), 0 5px 20px #ffa00030;
     }
     .photo-frame img {
-      max-width: 210px;
-      max-height: 220px;
       width: 100%;
-      height: auto;
-      border-radius: 14px;
-      display: block;
+      height: 100%;
+      max-width: 180px;
+      max-height: 180px;
       object-fit: cover;
-      background: #fff5e2;
+      border-radius: 16px;
+      display: block;
       pointer-events: none;
     }
     .modal {
@@ -62,111 +65,186 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(30,16,5,0.72);
-      transition: opacity .12s;
+      background: rgba(30,16,5,0.85);
+      opacity: 0;
+      visibility: hidden;
+      transition: all .2s ease;
+    }
+    .modal.active {
+      opacity: 1;
+      visibility: visible;
     }
     .modal-content {
       position: relative;
       background: transparent;
       border-radius: 24px;
-      box-shadow: 0 18px 85px #ff910011, 0 6px 24px #ff980088;
-      padding: 0;
-      max-width: 94vw;
-      max-height: 90vh;
+      box-shadow: 0 25px 90px rgba(255,145,0,0.25), 0 10px 35px rgba(255,152,0,0.4);
+      padding: 20px;
+      max-width: 95vw;
+      max-height: 95vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      animation: modalshow .14s;
+      animation: modalshow .2s ease;
     }
     @keyframes modalshow {
-      from { opacity: 0; transform: scale(.8);}
-      to { opacity: 1; transform: scale(1);}
+      from { 
+        opacity: 0; 
+        transform: scale(0.9) translateY(20px);
+      }
+      to { 
+        opacity: 1; 
+        transform: scale(1) translateY(0);
+      }
     }
     .modal-content img {
       max-width: 90vw;
-      max-height: 80vh;
-      border-radius: 18px;
+      max-height: 85vh;
+      width: auto;
+      height: auto;
+      border-radius: 20px;
       border: 6px solid #ffd6a2;
       background: #fffbe7;
-      box-shadow: 0 3px 25px #ffb34730;
+      box-shadow: 0 8px 35px rgba(255,179,71,0.35);
       display: block;
     }
     .modal-close {
       position: absolute;
-      top: -22px; right: -18px;
-      background: #ffc28c;
+      top: -15px; 
+      right: -15px;
+      background: linear-gradient(135deg, #ffc28c, #ffb347);
       color: #ff5722;
       border: none;
       border-radius: 50%;
-      font-size: 2.2rem;
-      width: 43px; height: 43px;
+      font-size: 1.8rem;
+      font-weight: bold;
+      width: 50px; 
+      height: 50px;
       cursor: pointer;
-      box-shadow: 0 2px 10px #ff980071;
-      display: flex; align-items: center; justify-content: center;
-      transition: background .15s, color .12s;
+      box-shadow: 0 4px 15px rgba(255,152,0,0.4);
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      transition: all .2s ease;
       z-index: 12;
     }
-    .modal-close:hover { background: #ff9800; color: #fff; }
-    @media (max-width:600px) {
+    .modal-close:hover { 
+      background: linear-gradient(135deg, #ff9800, #ffa726);
+      color: #fff; 
+      transform: scale(1.1);
+    }
+    
+    /* Адаптивность */
+    @media (max-width: 1200px) {
       .gallery-container {
-        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-        gap: 14px;
-        padding: 16px 2px;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        padding: 10px 0;
+      }
+      .gallery-container {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 12px;
+        width: 98%;
+        padding: 10px;
       }
       .photo-frame {
-        padding: 5px;
-        border-width: 2px;
+        padding: 12px;
+        border-width: 3px;
       }
       .photo-frame img {
-        max-width: 110px;
-        max-height: 120px;
-        border-radius: 9px;
+        border-radius: 12px;
+      }
+      .modal-content {
+        padding: 15px;
+        max-width: 98vw;
+        max-height: 90vh;
       }
       .modal-content img {
-        max-width: 98vw;
-        max-height: 70vh;
-        border-width:3px;
+        max-width: 95vw;
+        max-height: 75vh;
+        border-width: 4px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .gallery-container {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 10px;
+      }
+      .photo-frame {
+        padding: 8px;
+        border-width: 2px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="gallery-container">
-    <div class="photo-frame" onclick="openModal('fogo-1.png')"><img src="fogo-1.png" alt="Fogo Art 1"></div>
-    <div class="photo-frame" onclick="openModal('fogo-2.png')"><img src="fogo-2.png" alt="Fogo Art 2"></div>
-    <div class="photo-frame" onclick="openModal('fogo-3.png')"><img src="fogo-3.png" alt="Fogo Art 3"></div>
-    <div class="photo-frame" onclick="openModal('fogo-4.png')"><img src="fogo-4.png" alt="Fogo Art 4"></div>
-    <div class="photo-frame" onclick="openModal('fogo-5.png')"><img src="fogo-5.png" alt="Fogo Art 5"></div>
-    <div class="photo-frame" onclick="openModal('fogo-6.png')"><img src="fogo-6.png" alt="Fogo Art 6"></div>
-    <div class="photo-frame" onclick="openModal('fogo-7.png')"><img src="fogo-7.png" alt="Fogo Art 7"></div>
-    <div class="photo-frame" onclick="openModal('fogo-8.png')"><img src="fogo-8.png" alt="Fogo Art 8"></div>
-    <div class="photo-frame" onclick="openModal('fogo-9.png')"><img src="fogo-9.png" alt="Fogo Art 9"></div>
-    <div class="photo-frame" onclick="openModal('fogo-10.png')"><img src="fogo-10.png" alt="Fogo Art 10"></div>
+  <div class="gallery-container" id="gallery">
+    <!-- Галерея заполняется JavaScript -->
   </div>
-  <div id="modal" class="modal" style="display:none;" onclick="closeModal(event)">
+  
+  <div id="modal" class="modal" onclick="closeModal(event)">
     <div class="modal-content" id="modal-content">
       <button class="modal-close" onclick="closeModal(event)">&times;</button>
       <img src="" alt="Full Image" id="modal-img">
     </div>
   </div>
+
   <script>
+    // Создаем все изображения от fogo-1.png до fogo-27.png
+    const images = Array.from({length: 27}, (_, i) => `fogo-${i + 1}.png`);
+    
+    // Заполняем галерею
+    const gallery = document.getElementById('gallery');
+    images.forEach((src, index) => {
+      const frame = document.createElement('div');
+      frame.className = 'photo-frame';
+      frame.onclick = () => openModal(src);
+      frame.innerHTML = `<img src="${src}" alt="Fogo Art ${index + 1}" loading="lazy">`;
+      gallery.appendChild(frame);
+    });
+
     function openModal(src) {
-      var m = document.getElementById('modal');
-      var img = document.getElementById('modal-img');
-      img.src = src;
-      m.style.display = 'flex';
+      const modal = document.getElementById('modal');
+      const modalImg = document.getElementById('modal-img');
+      
+      modalImg.src = src;
+      modal.classList.add('active');
       document.body.style.overflow = 'hidden';
+      
+      // Предзагрузка изображения
+      const img = new Image();
+      img.onload = () => modalImg.src = src;
+      img.src = src;
     }
-    function closeModal(e) {
-      if (e.target.classList.contains('modal') || e.target.classList.contains('modal-close')) {
-        document.getElementById('modal').style.display = 'none';
+
+    function closeModal(event) {
+      if (event.target.classList.contains('modal') || 
+          event.target.classList.contains('modal-close')) {
+        const modal = document.getElementById('modal');
+        modal.classList.remove('active');
         document.getElementById('modal-img').src = '';
         document.body.style.overflow = '';
       }
     }
-    window.addEventListener('keydown',function(e){
-      if(e.key==='Escape') closeModal({target:document.getElementById('modal')});
+
+    // Закрытие по Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal({target: document.getElementById('modal')});
+      }
+    });
+
+    // Плавная прокрутка для больших галерей
+    gallery.addEventListener('scroll', () => {
+      gallery.style.scrollBehavior = 'smooth';
     });
   </script>
 </body>
 </html>
+
